@@ -1,4 +1,5 @@
-﻿#if UNITY_EDITOR
+﻿
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using UnityEditor; 
@@ -16,8 +17,6 @@ namespace Textus.SerializeReferenceUI.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            EditorGUI.BeginProperty(position, label, property);
-
             Rect labelPosition = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
             EditorGUI.LabelField(labelPosition, label);
 
@@ -25,8 +24,6 @@ namespace Textus.SerializeReferenceUI.Editor
             property.DrawSelectionButtonForManagedReference(position, typeRestrictions);
 
             EditorGUI.PropertyField(position, property, GUIContent.none, true);
-
-            EditorGUI.EndProperty();
         }
     }
 }
