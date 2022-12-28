@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c041c0f0630187644bd2e92ba3dbbb37, type: 3}
+  m_Name: DatabaseObject
+  m_EditorClassIdentifier: 
+  achievements:
+  - name: KillEasySkeletons
+    icon: {fileID: 0}
+    platformsSettings:
+    - rid: 332205990316343307
+    - rid: 332205990316343308
+    - rid: 332205990316343312
+    unlock:
+      unlockTriggers:
+      - rid: 332205990316343309
+      unlockConditions:
+      - rid: 332205990316343310
+      - rid: 332205990316343311
+  references:
+    version: 2
+    RefIds:
+    - rid: 332205990316343307
+      type: {class: PC, ns: , asm: AchievementSystem}
+      data:
+        achievementKey: sadkjhw8rh23hr0293rh2039rh
+    - rid: 332205990316343308
+      type: {class: PS4, ns: , asm: AchievementSystem}
+      data:
+        achievementKey: asd234e234sd2342d23e
+    - rid: 332205990316343309
+      type: {class: EnemyKilledTrigger, ns: , asm: AchievementSystem}
+    - rid: 332205990316343310
+      type: {class: KillEnemies, ns: , asm: AchievementSystem}
+      data:
+        targetType: 0
+        targetKills: 100
+    - rid: 332205990316343311
+      type: {class: LevelDifficulty, ns: , asm: AchievementSystem}
+      data:
+        difficulty: 0
+    - rid: 332205990316343312
+      type: {class: SteamDeck, ns: , asm: AchievementSystem}
+      data:
+        achievementKey: 12342673658362456458356824612
