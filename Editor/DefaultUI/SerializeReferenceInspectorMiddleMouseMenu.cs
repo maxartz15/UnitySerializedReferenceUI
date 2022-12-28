@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public static class SerializeReferenceInspectorMiddleMouseMenu
+namespace Textus.SerializeReferenceUI.Editor
 {
-    public static void ShowContextMenuForManagedReferenceOnMouseMiddleButton(this SerializedProperty property, Rect position, IEnumerable<Func<Type, bool>> filters = null)
+    public static class SerializeReferenceInspectorMiddleMouseMenu
     {
-        Event e = Event.current;
-        if (e.type != EventType.MouseDown || !position.Contains(e.mousePosition) || e.button != 2)
+        public static void ShowContextMenuForManagedReferenceOnMouseMiddleButton(this SerializedProperty property, Rect position, IEnumerable<Func<Type, bool>> filters = null)
         {
-            return;
+            Event e = Event.current;
+            if (e.type != EventType.MouseDown || !position.Contains(e.mousePosition) || e.button != 2)
+            {
+                return;
+            }
+
+            property.ShowContextMenuForManagedReference(filters);
         }
-        
-        property.ShowContextMenuForManagedReference(filters);
     } 
 }
 #endif

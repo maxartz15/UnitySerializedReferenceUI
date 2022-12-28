@@ -4,35 +4,38 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public static class SerializeReferenceInspectorButton
+namespace Textus.SerializeReferenceUI.Editor
 {
-    /// Must be drawn before DefaultProperty in order to receive input
-    public static void DrawSelectionButtonForManagedReference(this SerializedProperty property, Rect position, IEnumerable<Func<Type, bool>> filters = null)  
+    public static class SerializeReferenceInspectorButton
     {
-        Rect buttonPosition = position;
-        buttonPosition.x += EditorGUIUtility.labelWidth + 1 * EditorGUIUtility.standardVerticalSpacing;
-        buttonPosition.width = position.width - EditorGUIUtility.labelWidth - 1 * EditorGUIUtility.standardVerticalSpacing;
-        buttonPosition.height = EditorGUIUtility.singleLineHeight;
-
-        Color storedColor = GUI.backgroundColor;
-        int storedIndent = EditorGUI.indentLevel;
-        EditorGUI.indentLevel = 0;
-
-        (string AssemblyName, string ClassName) = ManagedReferenceUtility.GetSplitNamesFromTypename(property.managedReferenceFullTypename);
-       
-        bool isNull = string.IsNullOrEmpty(ClassName);
-        GUI.backgroundColor = isNull ? Color.red : storedColor;
-        
-        string className = isNull ? "Null (Assign)" : ClassName;
-        string assemblyName = AssemblyName;
-
-        if (GUI.Button(buttonPosition, new GUIContent(className, className + "  ( "+ assemblyName +" )")))
+        /// Must be drawn before DefaultProperty in order to receive input
+        public static void DrawSelectionButtonForManagedReference(this SerializedProperty property, Rect position, IEnumerable<Func<Type, bool>> filters = null)
         {
-            property.ShowContextMenuForManagedReference(buttonPosition, filters);
+            Rect buttonPosition = position;
+            buttonPosition.x += EditorGUIUtility.labelWidth + 1 * EditorGUIUtility.standardVerticalSpacing;
+            buttonPosition.width = position.width - EditorGUIUtility.labelWidth - 1 * EditorGUIUtility.standardVerticalSpacing;
+            buttonPosition.height = EditorGUIUtility.singleLineHeight;
+
+            Color storedColor = GUI.backgroundColor;
+            int storedIndent = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
+
+            (string AssemblyName, string ClassName) = ManagedReferenceUtility.GetSplitNamesFromTypename(property.managedReferenceFullTypename);
+
+            bool isNull = string.IsNullOrEmpty(ClassName);
+            GUI.backgroundColor = isNull ? Color.red : storedColor;
+
+            string className = isNull ? "Null (Assign)" : ClassName;
+            string assemblyName = AssemblyName;
+
+            if (GUI.Button(buttonPosition, new GUIContent(className, className + "  ( " + assemblyName + " )")))
+            {
+                property.ShowContextMenuForManagedReference(buttonPosition, filters);
+            }
+
+            GUI.backgroundColor = storedColor;
+            EditorGUI.indentLevel = storedIndent;
         }
-        
-        GUI.backgroundColor = storedColor;
-        EditorGUI.indentLevel = storedIndent;
-    }
+    } 
 }
 #endif
