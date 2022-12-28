@@ -28,7 +28,7 @@ namespace Textus.SerializeReferenceUI.Editor
             string className = isNull ? "Null (Assign)" : ClassName;
             string assemblyName = AssemblyName;
 
-            if (GUI.Button(buttonPosition, new GUIContent(className, className + "  ( " + assemblyName + " )")))
+            if (EditorGUI.DropdownButton(buttonPosition, new GUIContent(className, className + "  ( " + assemblyName + " )"), FocusType.Keyboard))
             {
                 property.ShowContextMenuForManagedReference(buttonPosition, filters);
             }
