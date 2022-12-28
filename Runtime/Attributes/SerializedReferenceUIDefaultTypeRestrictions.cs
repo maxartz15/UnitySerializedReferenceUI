@@ -6,10 +6,10 @@ public static class SerializedReferenceUIDefaultTypeRestrictions
 {
     public static IEnumerable<Func<Type, bool>> GetAllBuiltInTypeRestrictions(FieldInfo fieldInfo)
     {
-        var result = new List<Func<Type, bool>>();
-        
-        var attributeObjects = fieldInfo.GetCustomAttributes(false);
-        foreach (var attributeObject in attributeObjects)
+        List<Func<Type, bool>> result = new List<Func<Type, bool>>();
+
+        object[] attributeObjects = fieldInfo.GetCustomAttributes(false);
+        foreach (object attributeObject in attributeObjects)
         {
             switch (attributeObject)
             { 

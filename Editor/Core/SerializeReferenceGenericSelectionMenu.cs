@@ -1,5 +1,4 @@
 ﻿#if UNITY_EDITOR
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +15,8 @@ public static class SerializeReferenceGenericSelectionMenu
     /// As well as any custom restriction that is based on input type.
     /// And it will be performed on each Appropriate type found by TypeCache.
     public static void ShowContextMenuForManagedReference(this SerializedProperty property, Rect position, IEnumerable<Func<Type,bool>> filters = null)
-    { 
-        var context = new GenericMenu();
+    {
+        GenericMenu context = new GenericMenu();
         FillContextMenu(filters, context, property);
         context.DropDown(position);
     }
@@ -31,38 +30,40 @@ public static class SerializeReferenceGenericSelectionMenu
     /// And it will be performed on each Appropriate type found by TypeCache.
     public static void ShowContextMenuForManagedReference(this SerializedProperty property, IEnumerable<Func<Type, bool>> filters = null)
     {
-        var context = new GenericMenu();
+        GenericMenu context = new GenericMenu();
         FillContextMenu(filters, context, property);
         context.ShowAsContext();
     }
     
     private static void FillContextMenu(IEnumerable<Func<Type, bool>> enumerableFilters, GenericMenu contextMenu, SerializedProperty property)
     {
-        var filters = enumerableFilters.ToList();// Prevents possible multiple enumerations
+        List<Func<Type, bool>> filters = enumerableFilters.ToList();// Prevents possible multiple enumerations
         
         // Adds "Make Null" menu command
         contextMenu.AddItem(new GUIContent("Null"), false, property.SetManagedReferenceToNull);
-         
+
         // Collects appropriate types
-        var appropriateTypes = property.GetAppropriateTypesForAssigningToManagedReference(filters);
+        IEnumerable<Type> appropriateTypes = property.GetAppropriateTypesForAssigningToManagedReference(filters);
         
         // Adds appropriate types to menu
-        foreach (var appropriateType in appropriateTypes)
+        foreach (Type appropriateType in appropriateTypes)
+        {
             AddItemToContextMenu(appropriateType, contextMenu, property); 
+        }
     }
     
     private static void AddItemToContextMenu(Type type, GenericMenu genericMenuContext, SerializedProperty property)
     {
-        var assemblyName =  type.Assembly.ToString().Split('(', ',')[0];
-        var entryName = type + "  ( " + assemblyName + " )";
+        string assemblyName =  type.Assembly.ToString().Split('(', ',')[0];
+        string entryName = type + "  ( " + assemblyName + " )";
         genericMenuContext.AddItem(new GUIContent(entryName), false, AssignNewInstanceCommand, new GenericMenuParameterForAssignInstanceCommand(type, property));
     }
     
     private static void AssignNewInstanceCommand(object objectGenericMenuParameter )
     {
-        var parameter = (GenericMenuParameterForAssignInstanceCommand) objectGenericMenuParameter;
-        var type = parameter.Type;
-        var property = parameter.Property;
+        GenericMenuParameterForAssignInstanceCommand parameter = (GenericMenuParameterForAssignInstanceCommand) objectGenericMenuParameter;
+        Type type = parameter.Type;
+        SerializedProperty property = parameter.Property;
         property.AssignNewInstanceOfTypeToManagedReference(type);
     }
 
@@ -78,5 +79,4 @@ public static class SerializeReferenceGenericSelectionMenu
         public readonly Type Type;
     }
 } 
-
 #endif
